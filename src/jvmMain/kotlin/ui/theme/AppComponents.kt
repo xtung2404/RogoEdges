@@ -1,19 +1,27 @@
 package ui.theme
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -102,7 +110,7 @@ fun RogoButton(
 }
 
 @Composable
-fun RogoImageButton(
+fun RogoImageTextButton(
     modifier: Modifier = Modifier.width(600.dp),
     text: String = "",
     icon: ImageVector = Icons.Filled.Person,
@@ -142,6 +150,21 @@ fun RogoImageButton(
     }
 }
 
+@Composable
+fun RogoBackButton(onClick: () -> Unit) {
+    Icon(
+        imageVector = Icons.Filled.ArrowBack,
+        modifier = Modifier
+            .size(40.dp)
+            .background(Color.Black, CircleShape)
+            .clickable {
+                onClick.invoke()
+            }
+            .padding(8.dp),
+        tint = Color.White,
+        contentDescription = null
+    )
+}
 
 @Composable
 fun RogoSpace(size: Int) {
