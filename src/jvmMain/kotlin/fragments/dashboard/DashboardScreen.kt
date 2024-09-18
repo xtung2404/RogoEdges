@@ -20,7 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fragments.group.createGroupScreen
+import fragments.group.deleteGroupScreen
 import fragments.group.groupScreen
+import fragments.group.updateGroup
+import fragments.group.updateGroupScreen
 import items.RogoFunction
 import ui.theme.BLUE
 import ui.theme.Roboto
@@ -51,6 +55,13 @@ fun dashboardScreen() {
         ) {
             when(currentScreen) {
                 RogoFunction.SHOWGROUP.id -> groupScreen()
+                RogoFunction.ADDGROUP.id -> createGroupScreen(onNavBack = {
+
+                })
+                RogoFunction.UPDATEGROUP.id -> updateGroupScreen(onNavBack = {
+
+                })
+                RogoFunction.DELETEGROUP.id -> deleteGroupScreen()
             }
         }
     }

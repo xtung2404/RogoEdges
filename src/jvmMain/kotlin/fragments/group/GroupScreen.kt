@@ -51,7 +51,6 @@ fun groupScreen() {
             fontFamily = Roboto
         )
         Spacer(modifier = Modifier.size(34.dp))
-
     }
 }
 @Composable

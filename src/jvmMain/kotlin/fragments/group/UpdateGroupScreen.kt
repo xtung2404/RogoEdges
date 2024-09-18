@@ -22,8 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import fragments.location.createLocation
-import fragments.location.updateLocation
 import rogo.iot.module.platform.ILogR
 import rogo.iot.module.platform.callback.RequestCallback
 import rogo.iot.module.rogocore.sdk.SmartSdk
@@ -34,12 +32,16 @@ import ui.theme.RogoOutlinedTextField
 import ui.theme.RogoSpace
 
 @Composable
-fun createGroupScreen(onNavBack: () -> Unit) {
+fun updateGroupScreen(onNavBack: () -> Unit) {
+    var ioTGroup by remember {
+        mutableStateOf<IoTGroup?>(IoTGroup())
+    }
+
     var label by remember {
-        mutableStateOf("")
+        mutableStateOf(ioTGroup?.label?: "")
     }
     var ioTGroupType by remember {
-        mutableStateOf("")
+        mutableStateOf(ioTGroup?.desc?: "")
     }
     Box(
         modifier = Modifier.fillMaxSize()
@@ -98,9 +100,7 @@ fun createGroupScreen(onNavBack: () -> Unit) {
                         .background(color = Color.Blue, RoundedCornerShape(8.dp))
                         .align(Alignment.End),
                     onClick = {
-                        createGroup(
-                                label, ioTGroupType
-                        )
+                        updateGroup(ioTGroup?.uuid, label, ioTGroupType)
                     }
                 ) {
                     Icon(
@@ -114,18 +114,21 @@ fun createGroupScreen(onNavBack: () -> Unit) {
     }
 }
 
-fun createGroup(label: String, desc: String) {
-    SmartSdk.groupHandler().createGroup(
+fun updateGroup(groupId: String?, label: String, desc: String) {
+    SmartSdk.groupHandler().updateGroup(
+        groupId,
         label,
         desc,
         object : RequestCallback<IoTGroup> {
             override fun onSuccess(p0: IoTGroup?) {
-                ILogR.D("CREATE_GROUP", "OnSuccess")
+                ILogR.D("UPDATE_GROUP", "OnSuccess")
             }
 
             override fun onFailure(p0: Int, p1: String?) {
-                ILogR.D("CREATE_GROUP", "OnFailure", p0, p1)
+                ILogR.D("UPDATE_GROUP", "OnFailure", p0, p1)
             }
+
         }
     )
 }
+
