@@ -27,11 +27,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import fragments.authentication.authenticationScreen
-import fragments.authentication.signInScreen
-import fragments.authentication.signUpScreen
 import fragments.authentication.splashScreen
 import fragments.dashboard.dashboardScreen
-import fragments.location.locationItem
 import fragments.location.locationScreen
 import rogo.iot.module.platform.ILogR
 import rogo.iot.module.rogocore.sdk.callback.SuccessStatusCallback
@@ -47,85 +44,30 @@ import ui.theme.TitleLarge
 @Preview
 fun MainApplication() {
     val TAG = "MainApplication"
-    var currentScreen by remember { mutableStateOf("dashboard") }
+    var currentScreen by remember { mutableStateOf("splash") }
     MaterialTheme {
         Row(
             modifier = Modifier.fillMaxSize()
         ) {
-            Box(
-                modifier = Modifier
-                    .weight(0.2f)
-                    .background(CORE_COLOR)
-                    .padding(56.dp, 72.dp)
-                    .fillMaxHeight()
-            ) {
-                Column {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Person,
-                            contentDescription = null,
-                            modifier = Modifier.size(27.dp),
-                            tint = DARK_BLUE
-                        )
-
-                        RogoSpace(7)
-
-                        Text(
-                            text = "ROGO solutions",
-                            fontSize = TitleLarge.sp,
-                            color = DARK_BLUE,
-                            fontFamily = Roboto
-                        )
+            when(currentScreen) {
+                "splash" -> splashScreen(object : SuccessStatusCallback {
+                    override fun onSuccess() {
+                        ILogR.D(TAG, "onConnectServiceSuccess")
+                        currentScreen = "dashboard"
                     }
 
-                    RogoSpace(72)
-
-                    Text(
-                        text = "Excellence of Rogo \nSolutions - All-in-one IoT \nPlatform",
-                        fontSize = HeadlineLarge.sp,
-                        color = DARK_BLUE,
-                        fontFamily = Roboto,
-                    )
-                }
-                Text(
-                    text = "© 2023 - 2024\n" +
-                            "https://rogo.com.vn\n" +
-                            "All Rights Reserved",
-                    fontSize = 8.sp,
-                    color = DARK_BLUE,
-                    fontFamily = Roboto,
-                    modifier = Modifier.align(Alignment.BottomStart)
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .weight(0.8f)
-                    .fillMaxSize()
-            ) {
-                when(currentScreen) {
-                    "authentication" -> authenticationScreen {
-                        currentScreen = "location"
+                    override fun onFailure(p0: Int, p1: String?) {
+                        ILogR.D(TAG, "onConnectServiceFailure", p0, p1)
+                        currentScreen = "authentication"
                     }
 
-                    "splash" -> splashScreen(object : SuccessStatusCallback {
-                        override fun onSuccess() {
-                            ILogR.D(TAG, "onConnectServiceSuccess")
-                            currentScreen = "location"
-                        }
+                })
 
-                        override fun onFailure(p0: Int, p1: String?) {
-                            ILogR.D(TAG, "onConnectServiceFailure", p0, p1)
-                            currentScreen = "authentication"
-                        }
-                    })
-
-                    "location" -> locationScreen()
-
-                    "dashboard" -> dashboardScreen()
+                "authentication" -> authenticationScreen {
+                    currentScreen = "dashboard"
                 }
+
+                "dashboard" -> dashboardScreen()
             }
         }
     }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -28,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -118,6 +120,7 @@ fun RogoImageTextButton(
     fontFamily: FontFamily = Roboto,
     textColor: Color = Color.Black,
     backgroundColor: Color = BLUE,
+    textAlign: TextAlign = TextAlign.Center,
     textSize: Int = 14,
     cornerRadius: Int = 100,
     onClick: () -> Unit) {
@@ -132,19 +135,21 @@ fun RogoImageTextButton(
         shape = RoundedCornerShape(cornerRadius.dp)
     ) {
         Row (
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Icon(
                 imageVector = icon,
-                contentDescription = ""
+                contentDescription = "",
+                tint = textColor
             )
+            if (textAlign != TextAlign.Center) RogoSpace(8)
             Text(
                 text = if (isUppercase) text.toUpperCase() else text,
                 fontFamily = fontFamily,
                 color = textColor,
                 fontSize = textSize.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                textAlign = textAlign,
+                modifier = Modifier.fillMaxWidth().align(Alignment.CenterVertically)
             )
         }
     }

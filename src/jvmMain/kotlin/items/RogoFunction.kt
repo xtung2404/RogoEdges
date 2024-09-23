@@ -3,17 +3,15 @@ package items
 enum class RogoFunction(
  val id: String
 ) {
-    SHOWGROUP("Danh sách nhóm phòng"),
-    ADDGROUP("Thêm nhóm phòng"),
-    UPDATEGROUP("Cập nhật nhóm phòng"),
-    DELETEGROUP("Xóa nhóm phòng");
+    OVERVIEW("Overview"),
+    GATEWAY_MANUFACTURER("Gateway manufacturer"),
+    TESTING_WIFI_AND_BLE("Testing Wifi & BLE");
     companion object {
-        fun getGroupFunctions(): List<RogoFunction> {
+        fun getFunctions(): List<RogoFunction> {
             return listOf<RogoFunction>(
-                SHOWGROUP,
-                ADDGROUP,
-                UPDATEGROUP,
-                DELETEGROUP
+                OVERVIEW,
+                GATEWAY_MANUFACTURER,
+                TESTING_WIFI_AND_BLE
             )
         }
     }
